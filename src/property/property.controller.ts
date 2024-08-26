@@ -1,4 +1,14 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseBoolPipe,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { CreatePropertyDto } from './dto/createProperty.dto';
 
 @Controller('property')
 export class PropertyController {
@@ -7,8 +17,18 @@ export class PropertyController {
     return 'all property';
   }
 
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id, @Query('sort', ParseBoolPipe) sort) {
+    console.log(typeof id);
+    console.log({
+      sort,
+      type: typeof sort,
+    });
+    return id;
+  }
+
   @Post()
-  create() {
-    return 'this create property';
+  create(@Body() body: CreatePropertyDto) {
+    return body;
   }
 }
